@@ -1,0 +1,25 @@
+
+#perform rolling update 
+
+kubectl set image deployments mydep con1=httpd:latest    
+# check container image using following command 
+
+kubectl get deployments.apps -o wide
+
+# see deployment hstory 
+kubectl rollout history deployment mydep
+
+# describe rolling update history
+kubectl rollout history deployment mydep --revision 2
+
+#annotate change cause 
+kubectl annotate deployments.apps mydep kubernetes.io/change-cause="updating v2 with image httpd:latest"
+
+# check rolling update history
+kubectl rollout history deployment mydep
+
+## now roll back 
+kubectl rollout undo deployment mydep --to-revision 1
+
+
+kubectl get deployments.apps -o wide
